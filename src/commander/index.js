@@ -11,13 +11,19 @@ const register = () => {
 		.option('--entry  <entryEnv>', ' entry', './index.js')
 		.option('--output  <outputEnv>', ' output', 'dist')
 		.action(async (item) => {
-			await new Promise((resolve) => {
+			new Promise((resolve, reject) => {
 				const data = webpackConfig(item)
 				webpack(data, (e) => {
-					resolve(true)
+					if (e) {
+						console.log('e', e)
+						reject(false)
+					} else {
+						resolve(true)
+					}
 				})
+			}).then(() => {
+				init()
 			})
-			init()
 		})
 	program.parse(process.argv)
 

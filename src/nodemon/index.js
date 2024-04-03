@@ -10,7 +10,7 @@ const init = () => {
 			'--ext',
 			'js,json,ts', // 监听的文件扩展名
 			'--exec',
-			'node dist/bundle.js', // 执行的命令
+			'node dist/main.js', // 执行的命令
 			'--env',
 			'NODE_ENV=development' // 设置环境变量为开发环境
 		]
