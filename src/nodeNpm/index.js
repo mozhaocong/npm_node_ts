@@ -1,24 +1,21 @@
 const { spawn } = require('child_process')
 // 执行用户命令
 
-const init = (item) => {
-	const { env = 'development', mainFile = 'main.js' } = item
+const init = async (item) => {
+	const { mainFile = 'main.js' } = item
 	try {
 		// 定义 nodemon 配置参数
-		const nodemonArgs = [
-			'--watch',
-			'dist', // 监听的文件
-			'--ext',
-			'js,json,ts', // 监听的文件扩展名
-			'--exec',
-			`node dist/${mainFile}`, // 执行的命令
-			'--env',
-			`NODE_ENV=${env}` // 设置环境变量为开发环境
+		const npmArgs = [
+			`dist/${mainFile}` // 执行的命令
 		]
 
-		console.log('启动 nodemon')
+		console.log('启动 npm')
 		// 启动 nodemon
-		const child = spawn('nodemon', nodemonArgs, { stdio: 'inherit' })
+		const child = spawn('node', npmArgs, { stdio: 'inherit' })
+		child.on('close', (code) => {
+			console.log(`子进程退出，退出码: ${code}`)
+			process.exit(0)
+		})
 
 		// child.stdout.on('data', function (data) {
 		// 	console.log(data)

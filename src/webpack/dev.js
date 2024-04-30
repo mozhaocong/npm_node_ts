@@ -7,9 +7,9 @@ const os = require('os')
 // console.log('process.cwd():', process.cwd())
 // console.log('entry', path.resolve(process.cwd(), './src/index.ts'))
 // console.log('output', path.resolve(process.cwd(), 'dist'))
-const threads = os.cpus().length
 const initConfig = (item) => {
 	const { entry, output } = item
+	console.log('entry', path.resolve(process.cwd(), entry))
 	return {
 		mode: 'development',
 		watch: true,
@@ -19,7 +19,10 @@ const initConfig = (item) => {
 			path: path.resolve(process.cwd(), output), // 输出目录
 			// filename: 'bundle.js' // 输出文件名
 			filename: '[name].js',
-			chunkFilename: '[name].[contenthash].js'
+			// filename: 'main.js', // 主执行文件名
+			// chunkFilename: '[name].[contenthash].js',
+			chunkFilename: '[name].[contenthash].bundle.js',
+			clean: true
 		},
 		// 优化选项
 		optimization: {
@@ -57,25 +60,8 @@ const initConfig = (item) => {
 					}
 				}
 			},
-			// // 运行时块分离
-			// runtimeChunk: {
-			// 	name: 'runtime' // 运行时块的文件名
-			// },
-			//
-			// // 模块ID优化
-			// moduleIds: 'hashed', // 使用哈希值作为模块ID
-			//
-			// 用于存储已生成的资源的缓存
+
 			usedExports: true
-			//
-			// // 提供Webpack的sideEffects标志
-			// sideEffects: true,
-			//
-			// // 标记那些没有使用到的export
-			// providedExports: true,
-			//
-			// // 标记那些export被其他模块使用
-			// consumeSideEffects: true
 		},
 		cache: {
 			type: 'filesystem' // 使用文件缓存
